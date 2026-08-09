@@ -12,11 +12,11 @@ import {
 /** STUDIO-01 ~ 03: 업로드 → AI 패턴 생성 → 쇼룸 등록 */
 export default function StudioPage() {
   const [file, setFile] = useState<File | null>(null)
-  const [title, setTitle] = useState('')
   const [artworkId, setArtworkId] = useState<number | null>(null)
+  const [patternName, setPatternName] = useState('')
   const [taskId, setTaskId] = useState<string | undefined>()
 
-  const [name, setName] = useState('')
+  const [title, setTitle] = useState('')
   const [price, setPrice] = useState('')
   const [description, setDescription] = useState('')
 
@@ -27,26 +27,27 @@ export default function StudioPage() {
   const { data: artworks, isLoading } = useMyArtworks()
 
   const preview = file ? URL.createObjectURL(file) : null
-  const patternUrl = task.data?.patternImageUrl
+  const patternUrl = task.data?.resultImageUrl
+  const generatedPatternId = task.data?.generatedPatternId
   const status = task.data?.status
 
   const handleUpload = async () => {
-    if (!file || !title.trim()) return
-    const art = await uploadArtwork.mutateAsync({ file, title })
+    if (!file) return
+    const art = await uploadArtwork.mutateAsync({ file })
     setArtworkId(art.id)
   }
 
   const handleGenerate = async () => {
-    if (!artworkId) return
-    const t = await generate.mutateAsync({ artworkId })
+    if (!artworkId || !patternName.trim()) return
+    const t = await generate.mutateAsync({ artworkId, patternName })
     setTaskId(t.taskId)
   }
 
   const handleRegister = () => {
-    if (!patternUrl) return
+    if (!generatedPatternId) return
     register.mutate({
-      patternId: Number(task.data?.taskId ?? 0),
-      name,
+      aiPatternId: generatedPatternId,
+      title,
       description,
       price: Number(price) || 0,
     })
@@ -72,11 +73,9 @@ export default function StudioPage() {
           </label>
 
           <div className="space-y-5">
-            <Field label="작품명">
-              <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-            </Field>
+            <p className="text-sm text-muted">이미지를 선택하면 원화로 업로드됩니다. (제목은 서버에서 자동 지정)</p>
             {uploadArtwork.error && <p className="text-sm text-red-400">{errorMessage(uploadArtwork.error)}</p>}
-            <Button disabled={!file || !title.trim() || uploadArtwork.isPending} onClick={handleUpload}>
+            <Button disabled={!file || uploadArtwork.isPending} onClick={handleUpload}>
               {uploadArtwork.isPending ? '업로드 중' : '업로드'}
             </Button>
             {artworkId && <p className="text-xs text-accent">업로드 완료 (ID {artworkId})</p>}
@@ -103,11 +102,19 @@ export default function StudioPage() {
               <p className="text-sm text-muted">
                 업로드한 원화를 패턴으로 변환합니다. 생성은 비동기로 처리되며 완료까지 30초에서 2분 정도 걸립니다.
               </p>
+              <Field label="패턴 이름">
+                <Input value={patternName} onChange={(e) => setPatternName(e.target.value)} />
+              </Field>
               {generate.error && <p className="text-sm text-red-400">{errorMessage(generate.error)}</p>}
-              <Button disabled={generate.isPending || status === 'PROCESSING'} onClick={handleGenerate}>
-                {generate.isPending || status === 'PROCESSING' ? '생성 중' : '패턴 생성'}
+              <Button
+                disabled={generate.isPending || !patternName.trim() || status === 'IN_PROGRESS'}
+                onClick={handleGenerate}
+              >
+                {generate.isPending || status === 'IN_PROGRESS' ? '생성 중' : '패턴 생성'}
               </Button>
-              {status === 'FAILED' && <p className="text-sm text-red-400">{task.data?.message ?? '생성에 실패했습니다.'}</p>}
+              {status === 'FAILED' && (
+                <p className="text-sm text-red-400">{task.data?.errorMessage ?? '생성에 실패했습니다.'}</p>
+              )}
             </div>
           </div>
         )}
@@ -119,12 +126,12 @@ export default function StudioPage() {
           <Empty message="패턴 생성이 완료되면 등록할 수 있습니다." />
         ) : (
           <div className="grid max-w-lg gap-5">
-            <Field label="상품명"><Input value={name} onChange={(e) => setName(e.target.value)} /></Field>
+            <Field label="상품명"><Input value={title} onChange={(e) => setTitle(e.target.value)} /></Field>
             <Field label="가격 (원)"><Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} /></Field>
             <Field label="설명"><Input value={description} onChange={(e) => setDescription(e.target.value)} /></Field>
             {register.error && <p className="text-sm text-red-400">{errorMessage(register.error)}</p>}
             {register.isSuccess && <p className="text-sm text-accent">쇼룸에 등록했습니다.</p>}
-            <Button disabled={register.isPending || !name.trim()} onClick={handleRegister}>
+            <Button disabled={register.isPending || !title.trim()} onClick={handleRegister}>
               {register.isPending ? '등록 중' : '쇼룸에 등록'}
             </Button>
           </div>

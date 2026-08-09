@@ -28,10 +28,10 @@ export function useShowroomItem(itemId?: string) {
 }
 
 export interface CustomBody {
-  itemId: number
-  color: string
-  fit: string
-  patternPosition: { x: number; y: number; scale: number }
+  showroomItemId: number
+  customColor?: string
+  fit?: string
+  patternPlacement?: { x: number; y: number; scale: number }
 }
 
 export function useCreateCustom() {
@@ -39,15 +39,14 @@ export function useCreateCustom() {
     mutationFn: (body: CustomBody) =>
       post<CustomDesign>(EP.showroom.custom, {
         ...body,
-        patternPosition: JSON.stringify(body.patternPosition),
+        patternPlacement: body.patternPlacement ? JSON.stringify(body.patternPlacement) : undefined,
       }),
   })
 }
 
 export interface OrderBody {
-  itemId: number
+  showroomItemId: number
   customDesignId?: number
-  quantity: number
   sponsorshipAmount: number
   shippingAddress: string
 }

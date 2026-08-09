@@ -3,7 +3,7 @@ export const EP = {
   auth: {
     signup: '/auth/signup',
     login: '/auth/login',
-    oauthUrl: (provider: 'kakao' | 'google') => `/auth/oauth2/authorize-url/${provider}`,
+    oauthUrl: (provider: 'KAKAO' | 'GOOGLE') => `/auth/oauth2/authorize-url/${provider}`,
     oauthLogin: '/auth/oauth2/login',
   },
   user: {

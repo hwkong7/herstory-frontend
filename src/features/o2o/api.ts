@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { get, post } from '@/shared/api/client'
 import { EP } from '@/shared/api/endpoints'
-import type { PopupStoreInfo } from '@/shared/api/types'
+import type { MediaWallPost, PopupStoreInfo, PrintReservation } from '@/shared/api/types'
 
 export function usePopupInfo() {
   return useQuery({
@@ -13,13 +13,21 @@ export function usePopupInfo() {
 
 export function useSendToMediaWall() {
   return useMutation({
-    mutationFn: (body: { imageUrl: string; message?: string }) => post(EP.o2o.mediaWall, body),
+    mutationFn: (body: { customDesignId: number; message?: string }) =>
+      post<MediaWallPost>(EP.o2o.mediaWall, body),
   })
 }
 
 export function useCreatePrintReservation() {
   return useMutation({
-    mutationFn: (body: { itemId?: number; customDesignId?: number; reservedAt: string }) =>
-      post(EP.o2o.printReservations, body),
+    mutationFn: (body: { showroomItemId: number; reservationTime: string }) =>
+      post<PrintReservation>(EP.o2o.printReservations, body),
+  })
+}
+
+export function useMyPrintReservations() {
+  return useQuery({
+    queryKey: ['o2o', 'reservations', 'my'],
+    queryFn: () => get<PrintReservation[]>(EP.o2o.myPrintReservations),
   })
 }

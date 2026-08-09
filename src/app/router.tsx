@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
       { path: 'showroom/:itemId', element: <ShowroomDetailPage /> },
       { path: 'popup', element: <PopupStorePage /> },
       {
-        element: <RoleGuard allow={['ARTIST']} />,
+        element: <RoleGuard allow={['ROLE_ARTIST']} />,
         children: [{ path: 'studio', element: <StudioPage /> }],
       },
       {

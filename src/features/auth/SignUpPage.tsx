@@ -9,8 +9,8 @@ import { useSignUp } from './api'
 const schema = z.object({
   email: z.string().email('이메일 형식을 확인해 주세요'),
   password: z.string().min(6, '비밀번호는 6자 이상입니다'),
-  nickname: z.string().min(2, '닉네임은 2자 이상입니다'),
-  role: z.enum(['ARTIST', 'CUSTOMER']),
+  name: z.string().min(2, '이름은 2자 이상입니다'),
+  role: z.enum(['ROLE_ARTIST', 'ROLE_CUSTOMER']),
 })
 type Form = z.infer<typeof schema>
 
@@ -19,7 +19,7 @@ export default function SignUpPage() {
   const { mutate, isPending, error } = useSignUp()
   const { register, handleSubmit, watch, setValue, formState } = useForm<Form>({
     resolver: zodResolver(schema),
-    defaultValues: { role: 'CUSTOMER' },
+    defaultValues: { role: 'ROLE_CUSTOMER' },
   })
   const role = watch('role')
 
@@ -32,7 +32,7 @@ export default function SignUpPage() {
       <div className="space-y-5">
         <Field label="가입 유형">
           <div className="grid grid-cols-2 gap-3">
-            {(['CUSTOMER', 'ARTIST'] as const).map((r) => (
+            {(['ROLE_CUSTOMER', 'ROLE_ARTIST'] as const).map((r) => (
               <button
                 key={r}
                 type="button"
@@ -41,7 +41,7 @@ export default function SignUpPage() {
                   role === r ? 'border-accent text-accent' : 'border-line text-muted hover:text-ivory'
                 }`}
               >
-                {r === 'CUSTOMER' ? '고객' : '아티스트'}
+                {r === 'ROLE_CUSTOMER' ? '고객' : '아티스트'}
               </button>
             ))}
           </div>
@@ -50,8 +50,8 @@ export default function SignUpPage() {
         <Field label="이메일" error={formState.errors.email?.message}>
           <Input type="email" {...register('email')} />
         </Field>
-        <Field label="닉네임" error={formState.errors.nickname?.message}>
-          <Input {...register('nickname')} />
+        <Field label="이름" error={formState.errors.name?.message}>
+          <Input {...register('name')} />
         </Field>
         <Field label="비밀번호" error={formState.errors.password?.message}>
           <Input type="password" {...register('password')} />

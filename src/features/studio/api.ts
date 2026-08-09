@@ -3,13 +3,12 @@ import { get, post, upload } from '@/shared/api/client'
 import { EP } from '@/shared/api/endpoints'
 import type { Artwork, Pattern, PatternTask } from '@/shared/api/types'
 
-/** STUDIO-01 원화 업로드 (multipart) */
+/** STUDIO-01 원화 업로드 (multipart, file 필드만 지원) */
 export function useUploadArtwork() {
   return useMutation({
-    mutationFn: ({ file, title }: { file: File; title: string }) => {
+    mutationFn: ({ file }: { file: File }) => {
       const fd = new FormData()
       fd.append('file', file)
-      fd.append('title', title)
       return upload<Artwork>(EP.studio.artworkUpload, fd)
     },
   })
@@ -25,7 +24,7 @@ export function useMyArtworks() {
 /** STUDIO-02 AI 패턴 생성 요청 (비동기 → taskId 반환) */
 export function useGeneratePattern() {
   return useMutation({
-    mutationFn: (body: { artworkId: number; style?: string; prompt?: string }) =>
+    mutationFn: (body: { artworkId: number; patternName: string; prompt?: string }) =>
       post<PatternTask>(EP.studio.patternGenerate, body),
   })
 }
@@ -55,9 +54,9 @@ export function useArtworkPatterns(artworkId?: number) {
 export function useRegisterShowroomItem() {
   return useMutation({
     mutationFn: (body: {
-      patternId: number
-      name: string
-      description: string
+      aiPatternId: number
+      title: string
+      description?: string
       price: number
       rendering3dUrl?: string
     }) => post<{ id: number }>(EP.showroom.items, body),

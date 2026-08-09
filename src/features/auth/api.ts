@@ -5,7 +5,10 @@ import type { AuthResponse, Role } from '@/shared/api/types'
 import { useAuthStore } from '@/shared/store/auth'
 
 export interface LoginBody { email: string; password: string }
-export interface SignUpBody { email: string; password: string; nickname: string; role: Role }
+export interface SignUpBody { email: string; password: string; name: string; role: Role; bio?: string }
+
+export type OAuthProvider = 'kakao' | 'google'
+const toBackendProvider = (p: OAuthProvider) => p.toUpperCase() as 'KAKAO' | 'GOOGLE'
 
 export function useLogin() {
   const login = useAuthStore((s) => s.login)
@@ -24,18 +27,20 @@ export function useSignUp() {
 }
 
 /** 소셜 로그인 1단계: 인가 URL 받아서 이동 */
-export async function goToOAuth(provider: 'kakao' | 'google') {
-  const res = await get<{ authorizeUrl?: string; url?: string }>(EP.auth.oauthUrl(provider))
-  const url = res.authorizeUrl ?? res.url
-  if (url) location.href = url
+export async function goToOAuth(provider: OAuthProvider) {
+  const res = await get<{ authorizationUrl?: string }>(EP.auth.oauthUrl(toBackendProvider(provider)))
+  if (res.authorizationUrl) location.href = res.authorizationUrl
 }
 
 /** 소셜 로그인 2단계: code 교환 */
 export function useOAuthLogin() {
   const login = useAuthStore((s) => s.login)
   return useMutation({
-    mutationFn: (body: { provider: string; code: string }) =>
-      post<AuthResponse>(EP.auth.oauthLogin, body),
+    mutationFn: ({ provider, code }: { provider: string; code: string }) =>
+      post<AuthResponse>(EP.auth.oauthLogin, {
+        provider: toBackendProvider(provider as OAuthProvider),
+        code,
+      }),
     onSuccess: login,
   })
 }

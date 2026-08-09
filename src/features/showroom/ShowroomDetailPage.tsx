@@ -8,7 +8,7 @@ import GarmentViewer from './GarmentViewer'
 import { useCreateCustom, useCreateOrder, useShowroomItem } from './api'
 
 const COLORS = ['#f5f2ec', '#14121a', '#7d6b8f', '#c8a24a', '#6d8b74']
-const FITS = ['REGULAR', 'SLIM', 'OVERSIZE'] as const
+const FITS = ['REGULAR', 'SLIM', 'OVERSIZED'] as const
 const SPONSOR_OPTIONS = [0, 5000, 10000, 30000]
 
 export default function ShowroomDetailPage() {
@@ -36,15 +36,14 @@ export default function ShowroomDetailPage() {
     if (!isAuthenticated) return nav('/login')
     if (!address.trim()) return
     const design = await custom.mutateAsync({
-      itemId: item.id,
-      color,
+      showroomItemId: item.id,
+      customColor: color,
       fit,
-      patternPosition: { x: 0, y: 0, scale: 1 },
+      patternPlacement: { x: 0, y: 0, scale: 1 },
     })
     const result = await order.mutateAsync({
-      itemId: item.id,
+      showroomItemId: item.id,
       customDesignId: design?.id,
-      quantity: 1,
       sponsorshipAmount: sponsorship,
       shippingAddress: address,
     })
@@ -56,13 +55,13 @@ export default function ShowroomDetailPage() {
 
   return (
     <div className="grid gap-10 py-8 lg:grid-cols-2">
-      <GarmentViewer modelUrl={item.rendering3dUrl} patternUrl={item.patternImageUrl} color={color} />
+      <GarmentViewer modelUrl={item.rendering3dUrl} color={color} />
 
       <div className="space-y-8">
         <div>
-          <p className="text-xs tracking-widest text-muted uppercase">{item.artistName}</p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">{item.name ?? item.title}</h1>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight">{item.title}</h1>
           <p className="mt-3 text-sm leading-relaxed text-muted">{item.description}</p>
+          <p className="mt-1 text-xs text-muted">누적 후원 {item.sponsorCount ?? 0}건 · {won(item.totalSponsorshipAmount)}</p>
         </div>
 
         <Field label="컬러">

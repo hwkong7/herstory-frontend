@@ -21,11 +21,12 @@ export default function HomePage() {
       <header className="space-y-5 pt-8">
         <p className="text-xs tracking-[0.3em] text-accent uppercase">Her Story</p>
         <h1 className="max-w-2xl text-4xl leading-tight font-semibold tracking-tight md:text-5xl">
-          {story?.title ?? '작가의 손끝에서 시작된 옷'}
+          {story?.slogan ?? '작가의 손끝에서 시작된 옷'}
         </h1>
         <p className="max-w-xl text-sm leading-relaxed text-muted">
-          {story?.content ?? story?.subtitle ?? '원화를 패턴으로, 패턴을 옷으로. 판매 수익은 다시 작가에게 돌아갑니다.'}
+          {story?.mission ?? '원화를 패턴으로, 패턴을 옷으로. 판매 수익은 다시 작가에게 돌아갑니다.'}
         </p>
+        {story?.aesthetic && <p className="max-w-xl text-xs text-muted">{story.aesthetic}</p>}
       </header>
 
       {/* HOME-04 실시간 후원 현황 */}
@@ -33,9 +34,9 @@ export default function HomePage() {
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-4">
           {[
             ['누적 후원금', won(s.totalSponsorshipAmount)],
-            ['누적 로열티', won(s.totalRoyaltyAmount)],
-            ['후원자', s.sponsorCount != null ? `${s.sponsorCount.toLocaleString()}명` : '-'],
-            ['참여 작가', s.artistCount != null ? `${s.artistCount.toLocaleString()}명` : '-'],
+            ['누적 로열티 정산', won(s.totalRoyaltySettled)],
+            ['후원자', s.totalSponsorCount != null ? `${s.totalSponsorCount.toLocaleString()}명` : '-'],
+            ['참여 작가', s.supportedArtistCount != null ? `${s.supportedArtistCount.toLocaleString()}명` : '-'],
           ].map(([label, value]) => (
             <div key={label} className="bg-ink-soft px-5 py-6">
               <p className="text-xs text-muted">{label}</p>
@@ -57,18 +58,12 @@ export default function HomePage() {
             {items.map((it) => (
               <li key={it.id}>
                 <Link to={`/showroom/${it.id}`} className="group block space-y-3">
-                  <div className="aspect-[3/4] overflow-hidden rounded-lg border border-line bg-ink-soft">
-                    {it.thumbnailUrl && (
-                      <img
-                        src={it.thumbnailUrl}
-                        alt=""
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                      />
-                    )}
+                  <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg border border-line bg-ink-soft">
+                    <span className="px-3 text-center text-xs text-muted">{it.title}</span>
                   </div>
                   <div>
-                    <p className="truncate text-sm">{it.name ?? it.title}</p>
-                    <p className="text-xs text-muted">{it.artistName}</p>
+                    <p className="truncate text-sm">{it.title}</p>
+                    <p className="text-xs text-muted">후원 {it.sponsorCount ?? 0}명</p>
                     <p className="mt-1 text-sm text-accent">{won(it.price)}</p>
                   </div>
                 </Link>
@@ -89,7 +84,7 @@ export default function HomePage() {
                 <div className="mx-auto h-24 w-24 overflow-hidden rounded-full border border-line bg-ink-soft">
                   {a.profileImageUrl && <img src={a.profileImageUrl} alt="" className="h-full w-full object-cover" />}
                 </div>
-                <p className="text-sm">{a.nickname ?? a.name}</p>
+                <p className="text-sm">{a.artistName}</p>
                 <p className="line-clamp-2 text-xs text-muted">{a.bio}</p>
               </li>
             ))}

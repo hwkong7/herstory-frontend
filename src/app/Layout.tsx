@@ -1,10 +1,11 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { useAuthStore } from '@/shared/store/auth'
+import NotificationBell from '@/features/notification/NotificationBell'
 
 const NAV = [
   { to: '/', label: '홈', end: true },
   { to: '/showroom', label: '쇼룸' },
-  { to: '/studio', label: 'AI 스튜디오', role: 'ARTIST' as const },
+  { to: '/studio', label: 'AI 스튜디오', role: 'ROLE_ARTIST' as const },
   { to: '/popup', label: '팝업스토어' },
   { to: '/mypage', label: '마이페이지', auth: true },
 ]
@@ -39,6 +40,7 @@ export default function Layout() {
                 {n.label}
               </NavLink>
             ))}
+            {isAuthenticated && <NotificationBell />}
             {isAuthenticated ? (
               <button onClick={logout} className="text-muted transition hover:text-ivory">로그아웃</button>
             ) : (

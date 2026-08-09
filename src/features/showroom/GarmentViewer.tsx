@@ -9,9 +9,12 @@ interface Props {
   color?: string
 }
 
+const BLANK_PIXEL =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
+
 function Garment({ modelUrl, patternUrl, color = '#ffffff' }: Required<Pick<Props, 'modelUrl'>> & Props) {
   const { scene } = useGLTF(modelUrl)
-  const texture = useTexture(patternUrl ?? '')
+  const texture = useTexture(patternUrl ?? BLANK_PIXEL)
 
   const cloned = useMemo(() => {
     const s = scene.clone(true)

@@ -50,18 +50,12 @@ export default function ShowroomListPage() {
           {items.map((it) => (
             <li key={it.id}>
               <Link to={`/showroom/${it.id}`} className="group block space-y-3">
-                <div className="aspect-[3/4] overflow-hidden rounded-lg border border-line bg-ink-soft">
-                  {it.thumbnailUrl && (
-                    <img
-                      src={it.thumbnailUrl}
-                      alt=""
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                    />
-                  )}
+                <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg border border-line bg-ink-soft">
+                  <span className="px-3 text-center text-xs text-muted">{it.title}</span>
                 </div>
                 <div>
-                  <p className="truncate text-sm">{it.name ?? it.title}</p>
-                  <p className="text-xs text-muted">{it.artistName}</p>
+                  <p className="truncate text-sm">{it.title}</p>
+                  <p className="text-xs text-muted">후원 {it.sponsorCount ?? 0}명</p>
                   <p className="mt-1 text-sm text-accent">{won(it.price)}</p>
                 </div>
               </Link>
