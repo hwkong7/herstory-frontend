@@ -1,18 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #14121a;
-  --color-ink-soft: #221f2c;
-  --color-line: #322d3d;
-  --color-ivory: #f5f2ec;
-  --color-muted: #9a94a8;
-  --color-accent: #c8a24a;
-  --color-accent-soft: #e0c887;
+  --color-ink: #faf5ee;
+  --color-ink-soft: #f3e6d7;
+  --color-line: #e6d2bd;
+  --color-ivory: #3d2f26;
+  --color-muted: #8c7a6a;
+  --color-accent: #af6448;
+  --color-accent-soft: #d99b7e;
+  --color-on-accent: #fdf8f2;
+  --color-forest: #3c4a37;
+  --color-forest-soft: #4d5d46;
+  --color-on-forest: #ece4d6;
 }
 
 html, body, #root { height: 100%; }
 body {
   background-color: var(--color-ink);
+  background-image:
+    radial-gradient(ellipse 60% 45% at 10% 6%, rgba(175, 100, 72, 0.16), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 92% 4%, rgba(138, 154, 123, 0.14), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 50% 105%, rgba(217, 155, 126, 0.16), transparent 65%);
+  background-attachment: fixed;
   color: var(--color-ivory);
   -webkit-font-smoothing: antialiased;
+}
+
+/* 히어로/구독 밴드용 진한 수채화 워시 */
+.watercolor-band {
+  background-color: var(--color-accent-soft);
+  background-image:
+    radial-gradient(ellipse 70% 60% at 8% 15%, rgba(175, 100, 72, 0.55), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 95% 10%, rgba(138, 154, 123, 0.45), transparent 62%),
+    radial-gradient(ellipse 65% 70% at 50% 100%, rgba(253, 248, 242, 0.5), transparent 65%),
+    radial-gradient(ellipse 50% 45% at 75% 80%, rgba(175, 100, 72, 0.35), transparent 60%);
+}
+
+.arch-frame {
+  border-radius: 999px 999px 12px 12px;
+  background: linear-gradient(160deg, rgba(175, 100, 72, 0.28), rgba(138, 154, 123, 0.22));
 }

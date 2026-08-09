@@ -10,7 +10,7 @@ export function Button({
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ' +
     'disabled:cursor-not-allowed disabled:opacity-40'
   const styles = {
-    solid: 'bg-accent text-ink hover:bg-accent-soft',
+    solid: 'bg-accent text-on-accent hover:bg-accent-soft',
     line: 'border border-line text-ivory hover:border-accent hover:text-accent',
     ghost: 'text-muted hover:text-ivory',
   }[variant]

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Empty, ErrorBox, Input, Loading, Section } from '@/shared/ui/primitives'
+import { ArtworkTile } from '@/shared/ui/ArtworkTile'
 import { errorMessage } from '@/shared/api/client'
 import { won } from '@/shared/lib/format'
 import { useShowroomSearch, type SearchParams } from './api'
@@ -47,11 +48,11 @@ export default function ShowroomListPage() {
         {!isLoading && !error && items.length === 0 && <Empty message="조건에 맞는 아이템이 없습니다." />}
 
         <ul className="grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-          {items.map((it) => (
+          {items.map((it, i) => (
             <li key={it.id}>
               <Link to={`/showroom/${it.id}`} className="group block space-y-3">
-                <div className="flex aspect-[3/4] items-center justify-center overflow-hidden rounded-lg border border-line bg-ink-soft">
-                  <span className="px-3 text-center text-xs text-muted">{it.title}</span>
+                <div className="transition duration-500 group-hover:-translate-y-1">
+                  <ArtworkTile title={it.title} index={i} />
                 </div>
                 <div>
                   <p className="truncate text-sm">{it.title}</p>

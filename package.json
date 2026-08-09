@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "api:types": "openapi-typescript https://herstory-backend.onrender.com/v3/api-docs -o src/shared/api/schema.d.ts"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
@@ -36,7 +35,6 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
-    "openapi-typescript": "^7.13.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.65.0",

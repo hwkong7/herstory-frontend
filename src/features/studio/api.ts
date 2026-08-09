@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { get, post, upload } from '@/shared/api/client'
 import { EP } from '@/shared/api/endpoints'
 import type { Artwork, Pattern, PatternTask } from '@/shared/api/types'
+import { generateAiPatternPreview } from './aiPreview'
 
 /** STUDIO-01 원화 업로드 (multipart, file 필드만 지원) */
 export function useUploadArtwork() {
@@ -60,5 +61,12 @@ export function useRegisterShowroomItem() {
       price: number
       rendering3dUrl?: string
     }) => post<{ id: number }>(EP.showroom.items, body),
+  })
+}
+
+/** 실험적: 브라우저에서 직접 OpenAI로 2D 패턴 프리뷰 생성 (프로덕션 키 노출 주의, aiPreview.ts 참고) */
+export function useGenerateAiPreview() {
+  return useMutation({
+    mutationFn: (prompt: string) => generateAiPatternPreview(prompt),
   })
 }

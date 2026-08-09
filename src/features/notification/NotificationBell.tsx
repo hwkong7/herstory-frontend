@@ -38,7 +38,7 @@ export default function NotificationBell() {
       >
         <BellIcon />
         {unread > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-ink">
+          <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-on-accent">
             {unread > 9 ? '9+' : unread}
           </span>
         )}

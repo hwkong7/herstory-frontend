@@ -65,5 +65,7 @@ export async function upload<T>(url: string, formData: FormData): Promise<T> {
 export function errorMessage(e: unknown): string {
   const err = e as AxiosError<{ message?: string }>
   if (err?.code === 'ECONNABORTED') return '서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.'
-  return err?.response?.data?.message ?? '요청을 처리하지 못했습니다.'
+  if (err?.response?.data?.message) return err.response.data.message
+  if (e instanceof Error && e.message) return e.message
+  return '요청을 처리하지 못했습니다.'
 }

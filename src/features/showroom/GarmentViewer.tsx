@@ -2,6 +2,7 @@ import { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF, useTexture, Environment, Html } from '@react-three/drei'
 import * as THREE from 'three'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary'
 
 interface Props {
   modelUrl?: string
@@ -44,7 +45,7 @@ function Placeholder() {
   return (
     <mesh>
       <cylinderGeometry args={[0.6, 0.8, 1.8, 32]} />
-      <meshStandardMaterial color="#3a3446" roughness={0.9} />
+      <meshStandardMaterial color="#d9c3ae" roughness={0.9} />
     </mesh>
   )
 }
@@ -59,7 +60,9 @@ export default function GarmentViewer({ modelUrl, patternUrl, color }: Props) {
         <directionalLight position={[-3, 2, -2]} intensity={0.4} />
         <Suspense fallback={<Html center><span className="text-xs text-muted">모델 불러오는 중</span></Html>}>
           {modelUrl ? (
-            <Garment modelUrl={modelUrl} patternUrl={patternUrl} color={color} />
+            <ErrorBoundary key={modelUrl} fallback={<Placeholder />}>
+              <Garment modelUrl={modelUrl} patternUrl={patternUrl} color={color} />
+            </ErrorBoundary>
           ) : (
             <Placeholder />
           )}
