@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from './Layout'
 import RoleGuard from './RoleGuard'
+import RouteError from './RouteError'
+import NotFoundPage from './NotFoundPage'
 
 import HomePage from '@/features/home/HomePage'
 import LoginPage from '@/features/auth/LoginPage'
@@ -13,12 +15,13 @@ import MyPage from '@/features/mypage/MyPage'
 import PopupStorePage from '@/features/o2o/PopupStorePage'
 
 export const router = createBrowserRouter([
-  { path: '/login', element: <LoginPage /> },
-  { path: '/signup', element: <SignUpPage /> },
-  { path: '/oauth/callback/:provider', element: <OAuthCallbackPage /> },
+  { path: '/login', element: <LoginPage />, errorElement: <RouteError /> },
+  { path: '/signup', element: <SignUpPage />, errorElement: <RouteError /> },
+  { path: '/oauth/callback/:provider', element: <OAuthCallbackPage />, errorElement: <RouteError /> },
   {
     path: '/',
     element: <Layout />,
+    errorElement: <RouteError />,
     children: [
       { index: true, element: <HomePage /> },
       { path: 'showroom', element: <ShowroomListPage /> },
@@ -35,6 +38,8 @@ export const router = createBrowserRouter([
           { path: 'mypage/orders', element: <MyPage /> },
         ],
       },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
+  { path: '*', element: <RouteError /> },
 ])
