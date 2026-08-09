@@ -36,10 +36,10 @@ export default function HomePage() {
           </p>
           {story?.aesthetic && <p className="text-xs leading-relaxed text-muted">{story.aesthetic}</p>}
           <Link
-            to="/showroom"
+            to="/impact"
             className="inline-block border-b border-ivory pb-1 text-sm tracking-wide transition hover:border-accent hover:text-accent"
           >
-            더 알아보기
+            HerStory가 만들어가는 변화 보기
           </Link>
         </div>
         <div className="arch-frame relative mx-auto aspect-[4/5] w-full max-w-sm border border-line">
@@ -105,6 +105,12 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+            <Link
+              to="/impact"
+              className="inline-flex items-center justify-center rounded-full border border-ivory px-8 py-2.5 text-sm tracking-wide text-accent transition hover:border-accent hover:text-accent"
+            >
+              후원 이야기 보기
+            </Link>
           </div>
         </section>
       )}
@@ -117,12 +123,14 @@ export default function HomePage() {
         ) : (
           <ul className="flex gap-8 overflow-x-auto pb-2">
             {artists.map((a) => (
-              <li key={a.artistId} className="w-44 shrink-0 space-y-3 text-center">
-                <div className="arch-frame mx-auto h-32 w-32 overflow-hidden border border-line">
-                  {a.profileImageUrl && <img src={a.profileImageUrl} alt="" className="h-full w-full object-cover" />}
-                </div>
-                <p className="text-sm">{a.artistName}</p>
-                <p className="line-clamp-2 text-xs text-muted">{a.bio}</p>
+              <li key={a.artistId} className="w-44 shrink-0">
+                <Link to={`/showroom?artist=${a.artistId}`} className="space-y-3 text-center transition hover:text-accent">
+                  <div className="arch-frame mx-auto h-32 w-32 overflow-hidden border border-line">
+                    {a.profileImageUrl && <img src={a.profileImageUrl} alt="" className="h-full w-full object-cover" />}
+                  </div>
+                  <p className="text-sm">{a.artistName}</p>
+                  <p className="line-clamp-2 text-xs text-muted">{a.bio}</p>
+                </Link>
               </li>
             ))}
           </ul>

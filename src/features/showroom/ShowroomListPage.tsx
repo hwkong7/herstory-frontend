@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Empty, ErrorBox, Input, Loading, Section } from '@/shared/ui/primitives'
 import { ArtworkTile } from '@/shared/ui/ArtworkTile'
 import { errorMessage } from '@/shared/api/client'
@@ -16,7 +16,13 @@ const SORTS: { value: NonNullable<SearchParams['sortBy']>; label: string }[] = [
 export default function ShowroomListPage() {
   const [keyword, setKeyword] = useState('')
   const [sortBy, setSortBy] = useState<SearchParams['sortBy']>('popular')
-  const { data, isLoading, error, refetch } = useShowroomSearch({ keyword: keyword || undefined, sortBy })
+  const [searchParams] = useSearchParams()
+  const artist = searchParams.get('artist') || undefined
+  const params = useMemo<SearchParams>(
+    () => ({ keyword: keyword || undefined, artist, sortBy }),
+    [artist, keyword, sortBy],
+  )
+  const { data, isLoading, error, refetch } = useShowroomSearch(params)
   const items = data ?? []
 
   return (

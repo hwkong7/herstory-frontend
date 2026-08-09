@@ -13,6 +13,8 @@ import ShowroomDetailPage from '@/features/showroom/ShowroomDetailPage'
 import StudioPage from '@/features/studio/StudioPage'
 import MyPage from '@/features/mypage/MyPage'
 import PopupStorePage from '@/features/o2o/PopupStorePage'
+import ImpactPage from '@/features/impact/ImpactPage'
+import NotificationPage from '@/features/notification/NotificationPage'
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage />, errorElement: <RouteError /> },
@@ -27,6 +29,8 @@ export const router = createBrowserRouter([
       { path: 'showroom', element: <ShowroomListPage /> },
       { path: 'showroom/:itemId', element: <ShowroomDetailPage /> },
       { path: 'popup', element: <PopupStorePage /> },
+      { path: 'impact', element: <ImpactPage /> },
+      { path: 'notification', element: <NotificationPage /> },
       {
         element: <RoleGuard allow={['ROLE_ARTIST']} />,
         children: [{ path: 'studio', element: <StudioPage /> }],
@@ -36,6 +40,9 @@ export const router = createBrowserRouter([
         children: [
           { path: 'mypage', element: <MyPage /> },
           { path: 'mypage/orders', element: <MyPage /> },
+          { path: 'mypage/wishlist', element: <MyPage /> },
+          { path: 'mypage/certificates', element: <MyPage /> },
+          { path: 'mypage/qna', element: <MyPage /> },
         ],
       },
       { path: '*', element: <NotFoundPage /> },

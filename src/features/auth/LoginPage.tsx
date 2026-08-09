@@ -55,6 +55,9 @@ export default function LoginPage() {
         아직 회원이 아니신가요?{' '}
         <Link to="/signup" className="text-accent underline-offset-4 hover:underline">회원가입</Link>
       </p>
+      <p className="mt-3 text-center text-sm text-muted">
+        <Link to="/" className="text-accent underline-offset-4 hover:underline">← Home</Link>
+      </p>
     </div>
   )
 }

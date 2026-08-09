@@ -57,7 +57,7 @@ export default function NotificationBell() {
               </button>
             )}
           </div>
-          <ul className="max-h-96 overflow-y-auto">
+          <ul className="max-h-80 overflow-y-auto">
             {items.length === 0 && <li className="px-4 py-8 text-center text-sm text-muted">알림이 없습니다.</li>}
             {items.map((n) => (
               <li key={n.id}>
@@ -77,6 +77,18 @@ export default function NotificationBell() {
               </li>
             ))}
           </ul>
+          <div className="border-t border-line px-4 py-3 text-right">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false)
+                nav('/notification')
+              }}
+              className="text-xs text-muted transition hover:text-accent"
+            >
+              전체 알림 보기
+            </button>
+          </div>
         </div>
       )}
     </div>

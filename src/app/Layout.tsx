@@ -4,8 +4,9 @@ import NotificationBell from '@/features/notification/NotificationBell'
 
 const NAV = [
   { to: '/showroom', label: '쇼룸' },
+  { to: '/popup', label: 'O2O' },
+  { to: '/impact', label: 'Impact' },
   { to: '/studio', label: 'AI 스튜디오', role: 'ROLE_ARTIST' as const },
-  { to: '/popup', label: '팝업스토어' },
 ]
 
 export default function Layout() {
@@ -66,14 +67,35 @@ export default function Layout() {
 function Footer() {
   return (
     <footer className="mt-24 bg-forest px-6 py-14 text-on-forest">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 md:flex-row md:items-center md:justify-between">
-        <div className="space-y-2">
+      <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_auto] md:items-start md:justify-between">
+        <div>
           <p className="text-sm font-semibold tracking-[0.25em] uppercase">HerStory</p>
-          <p className="text-xs text-on-forest/70">서울 성동구 성수동 · 작가의 그림이 옷이 되는 곳</p>
+          <p className="mt-2 text-xs text-on-forest/70">서울 성동구 성수동 · 작가의 그림이 옷이 되는 곳</p>
         </div>
-        <div className="flex items-center gap-5 text-xs text-on-forest/70">
-          <a href="mailto:hello@herstory.com" className="transition hover:text-on-forest">hello@herstory.com</a>
-          <span>© {new Date().getFullYear()} HerStory</span>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase text-on-forest/70">ABOUT</p>
+            <div className="space-y-2 text-xs text-on-forest/90">
+              <Link to="/impact" className="block transition hover:text-ivory">브랜드 스토리</Link>
+              <Link to="/showroom" className="block transition hover:text-ivory">쇼룸</Link>
+              <Link to="/popup" className="block transition hover:text-ivory">O2O</Link>
+              <Link to="/studio" className="block transition hover:text-ivory">AI Studio</Link>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase text-on-forest/70">MY</p>
+            <div className="space-y-2 text-xs text-on-forest/90">
+              <Link to="/mypage" className="block transition hover:text-ivory">마이페이지</Link>
+              <Link to="/notification" className="block transition hover:text-ivory">알림</Link>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase text-on-forest/70">CONTACT</p>
+            <div className="space-y-2 text-xs text-on-forest/90">
+              <a href="mailto:hello@herstory.com" className="block transition hover:text-ivory">hello@herstory.com</a>
+              <span>© {new Date().getFullYear()} HerStory</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

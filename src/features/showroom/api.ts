@@ -5,6 +5,7 @@ import type { CustomDesign, OrderResponse, ShowroomItem } from '@/shared/api/typ
 
 export interface SearchParams {
   keyword?: string
+  artist?: string
   minPrice?: number
   maxPrice?: number
   sortBy?: 'popular' | 'priceAsc' | 'priceDesc' | 'latest'

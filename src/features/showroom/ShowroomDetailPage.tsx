@@ -54,18 +54,26 @@ export default function ShowroomDetailPage() {
   const failure = custom.error ?? order.error
 
   return (
-    <div className="grid gap-10 py-8 lg:grid-cols-2">
-      <GarmentViewer modelUrl={item.rendering3dUrl} color={color} />
+    <div className="space-y-8 py-8">
+      <button
+        type="button"
+        onClick={() => nav('/showroom')}
+        className="text-sm text-muted transition hover:text-accent"
+      >
+        ← 쇼룸으로 돌아가기
+      </button>
 
-      <div className="space-y-8">
-        <div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight">{item.title}</h1>
-          <p className="mt-3 text-sm leading-relaxed text-muted">{item.description}</p>
-          <p className="mt-1 text-xs text-muted">누적 후원 {item.sponsorCount ?? 0}건 · {won(item.totalSponsorshipAmount)}</p>
-        </div>
+      <div className="grid gap-10 lg:grid-cols-2">
+        <GarmentViewer modelUrl={item.rendering3dUrl} color={color} />
+        <div className="space-y-8">
+          <div>
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight">{item.title}</h1>
+            <p className="mt-3 text-sm leading-relaxed text-muted">{item.description}</p>
+            <p className="mt-1 text-xs text-muted">누적 후원 {item.sponsorCount ?? 0}건 · {won(item.totalSponsorshipAmount)}</p>
+          </div>
 
-        <Field label="컬러">
-          <div className="flex gap-3">
+          <Field label="컬러">
+            <div className="flex gap-3">
             {COLORS.map((c) => (
               <button
                 key={c}
@@ -133,5 +141,6 @@ export default function ShowroomDetailPage() {
         </div>
       </div>
     </div>
+  </div>
   )
 }

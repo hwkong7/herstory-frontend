@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button, Field, Input } from '@/shared/ui/primitives'
 import { errorMessage } from '@/shared/api/client'
 import { useSignUp } from './api'
@@ -63,6 +63,9 @@ export default function SignUpPage() {
           {isPending ? '가입하는 중' : '가입하기'}
         </Button>
       </div>
+      <p className="mt-3 text-center text-sm text-muted">
+        <Link to="/" className="text-accent underline-offset-4 hover:underline">← Home</Link>
+      </p>
     </div>
   )
 }
